@@ -41,5 +41,15 @@ class SupermarketTest {
 
     }
 
+    @Test
+    void an_empty_shopping_cart_should_cost_nothing() {
+        SupermarketCatalog catalog = new FakeCatalog();
+        Teller teller = new Teller(catalog);
+        ShoppingCart cart = new ShoppingCart();
+
+        Receipt receipt = teller.checksOutArticlesFrom(cart);
+
+        Approvals.verify(new ReceiptPrinter(40).printReceipt(receipt));
+    }
 
 }

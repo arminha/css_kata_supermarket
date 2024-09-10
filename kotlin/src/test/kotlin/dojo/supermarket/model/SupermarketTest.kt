@@ -1,7 +1,8 @@
 package dojo.supermarket.model
 
+import dojo.supermarket.ReceiptPrinter
+import org.approvaltests.Approvals
 import org.junit.jupiter.api.Test
-import dojo.supermarket.model.*
 
 class SupermarketTest {
 
@@ -23,5 +24,16 @@ class SupermarketTest {
         val receipt = teller.checksOutArticlesFrom(cart)
 
         // Todo: complete this test
+    }
+
+    @Test
+    fun an_empty_shopping_cart_should_cost_nothing() {
+        val catalog: SupermarketCatalog = FakeCatalog()
+        val teller = Teller(catalog)
+        val cart = ShoppingCart()
+
+        val receipt = teller.checksOutArticlesFrom(cart)
+
+        Approvals.verify(ReceiptPrinter(40).printReceipt(receipt))
     }
 }
