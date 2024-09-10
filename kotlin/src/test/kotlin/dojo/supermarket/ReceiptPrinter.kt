@@ -1,8 +1,8 @@
-package supermarket
+package dojo.supermarket
 
-import supermarket.model.ProductUnit
-import supermarket.model.Receipt
-import supermarket.model.ReceiptItem
+import dojo.supermarket.model.ProductUnit
+import dojo.supermarket.model.Receipt
+import dojo.supermarket.model.ReceiptItem
 import java.util.*
 
 class ReceiptPrinter @JvmOverloads constructor(private val columns: Int = 40) {

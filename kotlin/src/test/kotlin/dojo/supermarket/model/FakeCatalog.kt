@@ -1,7 +1,7 @@
 package dojo.supermarket.model
 
-import supermarket.model.Product
-import supermarket.model.SupermarketCatalog
+import dojo.supermarket.model.Product
+import dojo.supermarket.model.SupermarketCatalog
 import java.util.*
 
 class FakeCatalog : SupermarketCatalog {

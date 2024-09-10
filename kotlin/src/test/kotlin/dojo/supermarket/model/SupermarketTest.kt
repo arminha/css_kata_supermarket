@@ -1,7 +1,7 @@
 package dojo.supermarket.model
 
 import org.junit.jupiter.api.Test
-import supermarket.model.*
+import dojo.supermarket.model.*
 
 class SupermarketTest {
 

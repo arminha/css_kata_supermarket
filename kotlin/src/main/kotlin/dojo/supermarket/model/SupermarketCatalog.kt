@@ -1,4 +1,4 @@
-package supermarket.model
+package dojo.supermarket.model
 
 interface SupermarketCatalog {
     fun addProduct(product: Product, price: Double)
