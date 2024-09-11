@@ -46,7 +46,7 @@ class ReceiptPrinter @JvmOverloads constructor(private val columns: Int = 40) {
 
     private fun presentQuantity(item: ReceiptItem): String {
         return if (ProductUnit.Each.equals(item.product.unit))
-            String.format("%x", item.quantity.toInt())
+            String.format("%d", item.quantity.toInt())
         else
             String.format(Locale.UK, "%.3f", item.quantity)
     }

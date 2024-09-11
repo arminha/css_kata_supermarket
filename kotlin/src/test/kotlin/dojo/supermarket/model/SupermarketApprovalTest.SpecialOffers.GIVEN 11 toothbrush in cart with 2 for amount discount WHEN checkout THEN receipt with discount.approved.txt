@@ -1,0 +1,5 @@
+toothbrush                         10.89
+  0.99 * 11
+5 for 4.1(toothbrush)              -1.70
+
+Total:                              9.19

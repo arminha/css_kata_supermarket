@@ -1,0 +1,5 @@
+toothbrush                         14.85
+  0.99 * 15
+3 for 2(toothbrush)                -4.95
+
+Total:                              9.90
