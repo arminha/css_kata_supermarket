@@ -1,12 +1,10 @@
 package dojo.supermarket.model
 
 import java.util.ArrayList
-import java.util.HashMap
 
 class ShoppingCart {
 
     private val items = mutableListOf<ProductQuantity>()
-    private var productQuantities: MutableMap<Product, Double> = HashMap()
 
     fun getItems(): List<ProductQuantity> {
         return ArrayList(items)
@@ -18,20 +16,16 @@ class ShoppingCart {
 
     fun addItemQuantity(product: Product, quantity: Double) {
         items.add(ProductQuantity(product, quantity))
-        if (productQuantities.containsKey(product)) {
-            productQuantities[product] = productQuantities[product]!! + quantity
-        } else {
-            productQuantities[product] = quantity
-        }
     }
 
     fun handleOffers(offers: Map<Product, Offer>, catalog: SupermarketCatalog) : List<Discount> {
         val discounts : MutableList<Discount> = mutableListOf()
-        for (p in productQuantities().keys) {
-            val quantity = productQuantities[p]!!
-            if (offers.containsKey(p)) {
-                val offer = offers[p]!!
-                val unitPrice = catalog.getUnitPrice(p)
+        for (productQuantity in productQuantities()) {
+            val product = productQuantity.key
+            val quantity = productQuantity.value
+            if (offers.containsKey(product)) {
+                val offer = offers[product]!!
+                val unitPrice = catalog.getUnitPrice(product)
                 val quantityAsInt = quantity.toInt()
                 var discount: Discount? = null
                 var x = 1
@@ -43,7 +37,7 @@ class ShoppingCart {
                     if (quantityAsInt >= 2) {
                         val total = offer.argument * (quantityAsInt / x) + quantityAsInt % 2 * unitPrice
                         val discountN = unitPrice * quantity - total
-                        discount = Discount(p, "2 for " + offer.argument, discountN)
+                        discount = Discount(product, "2 for " + offer.argument, discountN)
                     }
 
                 }
@@ -54,16 +48,16 @@ class ShoppingCart {
                 if (offer.offerType === SpecialOfferType.ThreeForTwo && quantityAsInt > 2) {
                     val discountAmount =
                         quantity * unitPrice - (numberOfXs.toDouble() * 2.0 * unitPrice + quantityAsInt % 3 * unitPrice)
-                    discount = Discount(p, "3 for 2", discountAmount)
+                    discount = Discount(product, "3 for 2", discountAmount)
                 }
                 if (offer.offerType === SpecialOfferType.TenPercentDiscount) {
                     discount =
-                        Discount(p, offer.argument.toString() + "% off", quantity * unitPrice * offer.argument / 100.0)
+                        Discount(product, offer.argument.toString() + "% off", quantity * unitPrice * offer.argument / 100.0)
                 }
                 if (offer.offerType === SpecialOfferType.FiveForAmount && quantityAsInt >= 5) {
                     val discountTotal =
                         unitPrice * quantity - (offer.argument * numberOfXs + quantityAsInt % 5 * unitPrice)
-                    discount = Discount(p, x.toString() + " for " + offer.argument, discountTotal)
+                    discount = Discount(product, x.toString() + " for " + offer.argument, discountTotal)
                 }
                 if (discount != null)
                     discounts.add(discount)
@@ -73,6 +67,9 @@ class ShoppingCart {
     }
 
     private fun productQuantities(): Map<Product, Double> {
-        return productQuantities
+        // TODO simplify!
+        return items.groupBy { it.product }
+            .map { entry -> entry.key to entry.value.sumOf { it.quantity } }
+            .toMap()
     }
 }
