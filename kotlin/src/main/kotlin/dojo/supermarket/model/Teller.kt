@@ -7,7 +7,12 @@ class Teller(private val catalog: SupermarketCatalog) {
     private val offers = HashMap<Product, Offer>()
 
     fun addSpecialOffer(offerType: SpecialOfferType, product: Product, argument: Double) {
-        this.offers[product] = Offer(offerType, product, argument)
+        this.offers[product] = when (offerType) {
+            SpecialOfferType.ThreeForTwo -> DiscountThreeForTwoOffer(product)
+            SpecialOfferType.TwoForAmount -> DiscountTwoForAmountOffer(product,argument)
+            SpecialOfferType.FiveForAmount -> DiscountFiveForAmountOffer(product,argument)
+            SpecialOfferType.TenPercentDiscount -> DiscountPercentOffer(product,argument)
+        }
     }
 
     fun checksOutArticlesFrom(shoppingCart: ShoppingCart): Receipt {
