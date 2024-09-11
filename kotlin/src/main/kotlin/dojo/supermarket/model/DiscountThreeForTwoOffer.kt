@@ -2,14 +2,14 @@ package dojo.supermarket.model
 
 class DiscountThreeForTwoOffer(override val product: Product) : Offer {
 
+    private val bundleAmount = 3
+
     override fun discount(quantity: Double, unitPrice: Double): Discount? {
-        val x = 3
-        return if (quantity.toInt() > 2) {
-            val numberOfXs1 = quantity.toInt() / x
-            val numberOfXs = numberOfXs1
+        return if (quantity.toInt() >= bundleAmount) {
+            val numberOfBundles = quantity.toInt() / bundleAmount
             val discountAmount =
-                quantity * unitPrice - (numberOfXs.toDouble() * 2.0 * unitPrice + quantity.toInt() % 3 * unitPrice)
-            Discount(product, "3 for 2", discountAmount)
+                quantity * unitPrice - (numberOfBundles.toDouble() * 2.0 * unitPrice + quantity.toInt() % bundleAmount * unitPrice)
+            Discount(product, "$bundleAmount for 2", discountAmount)
         } else
             null
     }
