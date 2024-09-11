@@ -10,7 +10,7 @@ class ReceiptPrinter @JvmOverloads constructor(private val columns: Int = 40) {
     fun printReceipt(receipt: Receipt): String {
         val result = StringBuilder()
         for (item in receipt.getItems()) {
-            val price = String.format(Locale.UK, "%.2f", item.totalPrice)
+            val price = String.format(Locale.UK, "%.2f", item.getTotalPrice())
             val quantity = presentQuantity(item)
             val name = item.product.name
             val unitPrice = String.format(Locale.UK, "%.2f", item.price)

@@ -18,7 +18,7 @@ class Teller(private val catalog: SupermarketCatalog) {
             val quantity = pq.quantity
             val unitPrice = this.catalog.getUnitPrice(p)
             val price = quantity * unitPrice
-            receipt.addProduct(p, quantity, unitPrice, price)
+            receipt.addReceiptItem(p, quantity, unitPrice)
         }
         theCart.handleOffers(receipt, this.offers, this.catalog)
 
