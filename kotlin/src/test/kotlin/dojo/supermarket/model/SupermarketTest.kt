@@ -1,12 +1,14 @@
 package dojo.supermarket.model
 
-import org.junit.jupiter.api.Test
 import dojo.supermarket.model.*
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 class SupermarketTest {
 
     @Test
-    fun testSomething() {
+    fun tenPercentDiscount() {
         val catalog = FakeCatalog()
         val toothbrush = Product("toothbrush", ProductUnit.Each)
         catalog.addProduct(toothbrush, 0.99)
@@ -22,6 +24,14 @@ class SupermarketTest {
 
         val receipt = teller.checksOutArticlesFrom(cart)
 
-        // Todo: complete this test
+        // ASSERT
+        assertEquals(4.975, receipt.totalPrice!!, 0.01)
+        assertEquals(emptyList<Any>(), receipt.getDiscounts())
+        assertEquals(1, receipt.getItems().size)
+        val receiptItem = receipt.getItems()[0]
+        assertEquals(apples, receiptItem.product)
+        assertEquals(1.99, receiptItem.price)
+        assertEquals(2.5 * 1.99, receiptItem.totalPrice)
+        assertEquals(2.5, receiptItem.quantity)
     }
 }
