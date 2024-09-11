@@ -1,10 +1,9 @@
 package dojo.supermarket.model
 
-import java.util.*
-
-class Receipt {
-    private val receiptItemList = ArrayList<ReceiptItem>()
-    private var discountList = emptyList<Discount>()
+data class Receipt(
+    val receiptItemList: List<ReceiptItem>,
+    val discountList: List<Discount>
+) {
 
     val totalPrice: Double
         get() {
@@ -18,19 +17,4 @@ class Receipt {
             return total
         }
 
-    fun addReceiptItem(receiptItem: ReceiptItem) {
-        this.receiptItemList.add(receiptItem)
-    }
-
-    fun getItems(): List<ReceiptItem> {
-        return ArrayList(this.receiptItemList)
-    }
-
-    fun getDiscounts(): List<Discount> {
-        return discountList
-    }
-
-    fun addDiscounts(discounts: List<Discount>) {
-        this.discountList = discounts
-    }
 }

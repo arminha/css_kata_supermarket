@@ -9,7 +9,7 @@ class ReceiptPrinter @JvmOverloads constructor(private val columns: Int = 40) {
 
     fun printReceipt(receipt: Receipt): String {
         val result = StringBuilder()
-        for (item in receipt.getItems()) {
+        for (item in receipt.receiptItemList) {
             val price = String.format(Locale.UK, "%.2f", item.getTotalPrice())
             val quantity = presentQuantity(item)
             val name = item.product.name
@@ -23,7 +23,7 @@ class ReceiptPrinter @JvmOverloads constructor(private val columns: Int = 40) {
             }
             result.append(line)
         }
-        for (discount in receipt.getDiscounts()) {
+        for (discount in receipt.discountList) {
             val productPresentation = discount.product.name
             val pricePresentation = String.format(Locale.UK, "%.2f", discount.discountAmount)
             val description = discount.description
@@ -37,7 +37,7 @@ class ReceiptPrinter @JvmOverloads constructor(private val columns: Int = 40) {
             result.append("\n")
         }
         result.append("\n")
-        val pricePresentation = String.format(Locale.UK, "%.2f", receipt.totalPrice as Double)
+        val pricePresentation = String.format(Locale.UK, "%.2f", receipt.totalPrice)
         val total = "Total: "
         val whitespace = getWhitespace(this.columns - total.length - pricePresentation.length)
         result.append(total).append(whitespace).append(pricePresentation)
@@ -45,7 +45,7 @@ class ReceiptPrinter @JvmOverloads constructor(private val columns: Int = 40) {
     }
 
     private fun presentQuantity(item: ReceiptItem): String {
-        return if (ProductUnit.Each.equals(item.product.unit))
+        return if (ProductUnit.Each == item.product.unit)
             String.format("%d", item.quantity.toInt())
         else
             String.format(Locale.UK, "%.3f", item.quantity)
