@@ -4,7 +4,7 @@ import java.util.*
 
 class Receipt {
     private val receiptItemList = ArrayList<ReceiptItem>()
-    private val discountList = ArrayList<Discount>()
+    private var discountList = emptyList<Discount>()
 
     val totalPrice: Double
         get() {
@@ -18,19 +18,19 @@ class Receipt {
             return total
         }
 
-    fun addReceiptItem(product: Product, quantity: Double, price: Double) {
-        this.receiptItemList.add(ReceiptItem(product, quantity, price))
+    fun addReceiptItem(receiptItem: ReceiptItem) {
+        this.receiptItemList.add(receiptItem)
     }
 
     fun getItems(): List<ReceiptItem> {
         return ArrayList(this.receiptItemList)
     }
 
-    fun addDiscount(discount: Discount) {
-        this.discountList.add(discount)
-    }
-
     fun getDiscounts(): List<Discount> {
         return discountList
+    }
+
+    fun addDiscounts(discounts: List<Discount>) {
+        this.discountList = discounts
     }
 }

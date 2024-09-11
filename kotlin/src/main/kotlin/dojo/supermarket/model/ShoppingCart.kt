@@ -5,22 +5,16 @@ import java.util.HashMap
 
 class ShoppingCart {
 
-    private val items = ArrayList<ProductQuantity>()
-    internal var productQuantities: MutableMap<Product, Double> = HashMap()
+    private val items = mutableListOf<ProductQuantity>()
+    private var productQuantities: MutableMap<Product, Double> = HashMap()
 
-
-    internal fun getItems(): List<ProductQuantity> {
+    fun getItems(): List<ProductQuantity> {
         return ArrayList(items)
     }
 
-    internal fun addItem(product: Product) {
+    fun addItem(product: Product) {
         this.addItemQuantity(product, 1.0)
     }
-
-    internal fun productQuantities(): Map<Product, Double> {
-        return productQuantities
-    }
-
 
     fun addItemQuantity(product: Product, quantity: Double) {
         items.add(ProductQuantity(product, quantity))
@@ -31,7 +25,8 @@ class ShoppingCart {
         }
     }
 
-    internal fun handleOffers(receipt: Receipt, offers: Map<Product, Offer>, catalog: SupermarketCatalog) {
+    fun handleOffers(offers: Map<Product, Offer>, catalog: SupermarketCatalog) : List<Discount> {
+        val discounts : MutableList<Discount> = mutableListOf()
         for (p in productQuantities().keys) {
             val quantity = productQuantities[p]!!
             if (offers.containsKey(p)) {
@@ -71,9 +66,13 @@ class ShoppingCart {
                     discount = Discount(p, x.toString() + " for " + offer.argument, discountTotal)
                 }
                 if (discount != null)
-                    receipt.addDiscount(discount)
+                    discounts.add(discount)
             }
-
         }
+        return discounts
+    }
+
+    private fun productQuantities(): Map<Product, Double> {
+        return productQuantities
     }
 }
